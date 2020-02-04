@@ -16,19 +16,19 @@ class Controlador{
     cambiarLimiteDeExtraccion() {
         var nuevoLimite;
         nuevoLimite= prompt("Ingrese el nuevo limite");
-        modelo.cuenta.limiteExtraccion= Number(nuevoLimite); 
+        this.modelo.cuenta.limiteExtraccion= Number(nuevoLimite); 
         actualizarLimiteEnPantalla();  
-        setStorage(); 
+        setStorage();
         }
         
         sumarDinero(cuenta, dineroAgregado){
-        cuenta.saldoCuenta = modelo.cuenta.saldoCuenta+ Number(dineroAgregado);
+        cuenta.saldoCuenta = cuenta.saldoCuenta+ Number(dineroAgregado);
         }
         
         depositarDinero() {
         var dineroAgregado=prompt("Ingrese la cantidad de dinero a depositar");
         if(dineroAgregado>0){
-            sumarDinero(modelo.cuenta, dineroAgregado);
+            sumarDinero(this.modelo.cuenta, dineroAgregado);
         }
         else{
             alert("El valor ingresado no es valido");
@@ -43,12 +43,12 @@ class Controlador{
         
         extraerDinero() {
         var dineroRestado= Number(prompt("Ingrese la cantidad de dinero a extraer"));
-        if(dineroRestado > modelo.cuenta.saldoCuenta || dineroRestado > modelo.cuenta.limiteExtraccion){
+        if(dineroRestado > this.modelo.cuenta.saldoCuenta || dineroRestado > this.modelo.cuenta.limiteExtraccion){
             alert("La operacion no es válida, el monto ingresado debe ser mayor al saldo actual y menor al limite de extracción.");
         }
         else{
             if(dineroRestado % 100 == 0){
-                restarDinero(modelo.cuenta, dineroRestado);
+                restarDinero(this.modelo.cuenta, dineroRestado);
                 actualizarSaldoEnPantalla();
             }
             else{
@@ -66,8 +66,8 @@ class Controlador{
             switch(respuesta){
         
                 case "luz":
-                    if(modelo.cuenta.saldoCuenta > servicios[0].monto && !servicios[0].fuePagado){
-                        modelo.cuenta.saldoCuenta=modelo.cuenta.saldoCuenta-150;
+                    if(this.modelo.cuenta.saldoCuenta > servicios[0].monto && !servicios[0].fuePagado){
+                        this.modelo.cuenta.saldoCuenta=this.modelo.cuenta.saldoCuenta-150;
                         servicios[0].fuePagado=true;
                         alert("Luz pagada correctamente");
                     }
@@ -77,8 +77,8 @@ class Controlador{
                     break;
         
                 case "agua":
-                    if(modelo.cuenta.saldoCuenta > servicios[1].monto && !servicios[1].fuePagado){
-                        modelo.cuenta.saldoCuenta=modelo.cuenta.saldoCuenta-50;
+                    if(this.modelo.cuenta.saldoCuenta > servicios[1].monto && !servicios[1].fuePagado){
+                        this.modelo.cuenta.saldoCuenta=this.modelo.cuenta.saldoCuenta-50;
                         servicios[1].fuePagado=true;
                         alert("Agua pagada correctamente");
                     }
@@ -88,8 +88,8 @@ class Controlador{
                     break;
         
                 case "gas":
-                    if(modelo.cuenta.saldoCuenta > servicios[2].monto && !servicios[2].fuePagado){
-                        modelo.cuenta.saldoCuenta=modelo.cuenta.saldoCuenta-25;
+                    if(this.modelo.cuenta.saldoCuenta > servicios[2].monto && !servicios[2].fuePagado){
+                        this.modelo.cuenta.saldoCuenta=this.modelo.cuenta.saldoCuenta-25;
                         servicios[2].fuePagado=true;
                         alert("Gas pagado correctamente")
                     }
@@ -109,7 +109,7 @@ class Controlador{
         transferirDinero() {
         var monto= prompt("Ingrese monto a transferir");
         
-        if(monto>modelo.cuenta.saldoCuenta){
+        if(monto>this.modelo.cuenta.saldoCuenta){
             alert("No tiene saldo suficiente para realizar esta transferencia.");
         }
         
@@ -117,14 +117,14 @@ class Controlador{
         
         var IDamigo= Number(prompt("Ingrese el ID del usuario a transferir"));
         
-        for(i=0; i<modelo.amigos.length; i++){
+        for(i=0; i<this.modelo.amigos.length; i++){
         
-            if(IDamigo==modelo.amigos[i].ID){
-                sumarDinero(modelo.amigos[i], monto);
-                restarDinero(modelo.cuenta, monto);
+            if(IDamigo==this.modelo.amigos[i].ID){
+                sumarDinero(this.modelo.amigos[i], monto);
+                restarDinero(this.modelo.cuenta, monto);
                 alert("Dinero transferido correctamente");
                 actualizarSaldoEnPantalla();
-                console.log(amigos[i].saldoCuenta);
+                console.log(this.modelo.amigos[i].saldoCuenta);
                 break;
             }
         
@@ -139,12 +139,12 @@ class Controlador{
         
        iniciarSesion() {
         var respuesta= Number(prompt("Ingrese su codigo de seguridad"));
-        if(respuesta===modelo.cuenta.codigoSeguridad){
+        if(respuesta===this.modelo.cuenta.codigoSeguridad){
             alert("Bienvenido/a");
         }
         else{
             alert("Ha introducido un código incorrecto");
-            modelo.cuenta.saldoCuenta=0;
+            this.modelo.cuenta.saldoCuenta=0;
             actualizarSaldoEnPantalla();
         }
         setStorage();
