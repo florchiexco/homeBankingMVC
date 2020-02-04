@@ -1,0 +1,18 @@
+[
+    {
+        "servicio": "luz",
+        "monto": 150,
+        "fuePagado": false
+    },
+    {
+        "servicio": "agua",
+        "monto": 50,
+        "fuePagado": false
+    },
+    {
+        "servicio": "gas",
+        "monto": 25,
+        "fuePagado": false
+    }
+]
+

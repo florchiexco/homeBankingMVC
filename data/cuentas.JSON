@@ -1,0 +1,23 @@
+[
+    {
+        "ID": 1,
+        "nombreUsuario": "Florencia Excoffon",
+        "saldoCuenta": 1000,
+        "limiteExtraccion": 500,
+        "codigoSeguridad": 123
+    },
+    {
+        "ID": 2,
+        "nombreUsuario": "John Ludueña",
+        "saldoCuenta": 5000,
+        "limiteExtraccion": 600,
+        "codigoSeguridad": 456
+    },
+    {
+        "ID": 3,
+        "nombreUsuario": "Anita Della Ricca",
+        "saldoCuenta": 1000,
+        "limiteExtraccion": 300,
+        "codigoSeguridad": 789
+    }
+]
