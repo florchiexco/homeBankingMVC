@@ -2,23 +2,26 @@
 
 class Controlador{
 
-    constructor(modelo){
+    constructor(modelo, vista){
         this.modelo= modelo;
+        this.vista= vista;
+        this.iniciarSesion();
+        this.esperarEvento();
     }
 
     setStorage(){
-        localStorage.setItem("cuentas", JSON.stringify(modelo.cuentas));
-        localStorage.setItem("cuenta", JSON.stringify(modelo.cuentas[0]));
-        localStorage.setItem("amigos", JSON.stringify(modelo.cuentas.slice(1,3)));
-        localStorage.setItem("servicios", JSON.stringify(modelo.servicios));
+        localStorage.setItem("cuentas", JSON.stringify(this.modelo.cuentas));
+        localStorage.setItem("cuenta", JSON.stringify(this.modelo.cuentas[0]));
+        localStorage.setItem("amigos", JSON.stringify(this.modelo.cuentas.slice(1,3)));
+        localStorage.setItem("servicios", JSON.stringify(this.modelo.servicios));
     }
 
     cambiarLimiteDeExtraccion() {
         var nuevoLimite;
         nuevoLimite= prompt("Ingrese el nuevo limite");
         this.modelo.cuenta.limiteExtraccion= Number(nuevoLimite); 
-        actualizarLimiteEnPantalla();  
-        setStorage();
+        this.vista.actualizarLimiteEnPantalla();  
+        this.setStorage();
         }
         
         sumarDinero(cuenta, dineroAgregado){
@@ -28,13 +31,13 @@ class Controlador{
         depositarDinero() {
         var dineroAgregado=prompt("Ingrese la cantidad de dinero a depositar");
         if(dineroAgregado>0){
-            sumarDinero(this.modelo.cuenta, dineroAgregado);
+            this.sumarDinero(this.modelo.cuenta, dineroAgregado);
         }
         else{
             alert("El valor ingresado no es valido");
         }
-        actualizarSaldoEnPantalla();
-        setStorage();
+        this.vista.actualizarSaldoEnPantalla();
+        this.setStorage();
         }
         
         restarDinero(cuenta, dineroRestado){
@@ -48,14 +51,14 @@ class Controlador{
         }
         else{
             if(dineroRestado % 100 == 0){
-                restarDinero(this.modelo.cuenta, dineroRestado);
-                actualizarSaldoEnPantalla();
+                this.restarDinero(this.modelo.cuenta, dineroRestado);
+                this.vista.actualizarSaldoEnPantalla();
             }
             else{
                 alert("El dinero a extraer debe ser multiplo de 100");
             }
         }
-        setStorage();
+        this.setStorage();
         }
         
         
@@ -66,9 +69,9 @@ class Controlador{
             switch(respuesta){
         
                 case "luz":
-                    if(this.modelo.cuenta.saldoCuenta > servicios[0].monto && !servicios[0].fuePagado){
+                    if(this.modelo.cuenta.saldoCuenta > this.modelo.servicios[0].monto && !this.modelo.servicios[0].fuePagado){
                         this.modelo.cuenta.saldoCuenta=this.modelo.cuenta.saldoCuenta-150;
-                        servicios[0].fuePagado=true;
+                        this.modelo.servicios[0].fuePagado=true;
                         alert("Luz pagada correctamente");
                     }
                     else{
@@ -77,9 +80,9 @@ class Controlador{
                     break;
         
                 case "agua":
-                    if(this.modelo.cuenta.saldoCuenta > servicios[1].monto && !servicios[1].fuePagado){
+                    if(this.modelo.cuenta.saldoCuenta > this.modelo.servicios[1].monto && !this.modelo.servicios[1].fuePagado){
                         this.modelo.cuenta.saldoCuenta=this.modelo.cuenta.saldoCuenta-50;
-                        servicios[1].fuePagado=true;
+                        this.modelo.servicios[1].fuePagado=true;
                         alert("Agua pagada correctamente");
                     }
                     else{
@@ -88,9 +91,9 @@ class Controlador{
                     break;
         
                 case "gas":
-                    if(this.modelo.cuenta.saldoCuenta > servicios[2].monto && !servicios[2].fuePagado){
+                    if(this.modelo.cuenta.saldoCuenta > this.modelo.servicios[2].monto && !this.modelo.servicios[2].fuePagado){
                         this.modelo.cuenta.saldoCuenta=this.modelo.cuenta.saldoCuenta-25;
-                        servicios[2].fuePagado=true;
+                        this.modelo.servicios[2].fuePagado=true;
                         alert("Gas pagado correctamente")
                     }
                     else{
@@ -102,8 +105,8 @@ class Controlador{
         else{
             alert("El servicio ingresado no es valido")
         }
-        actualizarSaldoEnPantalla();
-        setStorage();
+        this.vista.actualizarSaldoEnPantalla();
+        this.setStorage();
         }
         
         transferirDinero() {
@@ -123,7 +126,7 @@ class Controlador{
                 sumarDinero(this.modelo.amigos[i], monto);
                 restarDinero(this.modelo.cuenta, monto);
                 alert("Dinero transferido correctamente");
-                actualizarSaldoEnPantalla();
+                this.vista.actualizarSaldoEnPantalla();
                 console.log(this.modelo.amigos[i].saldoCuenta);
                 break;
             }
@@ -134,7 +137,7 @@ class Controlador{
             }
         }
         }
-        setStorage();
+        this.setStorage();
         }
         
        iniciarSesion() {
@@ -145,9 +148,17 @@ class Controlador{
         else{
             alert("Ha introducido un código incorrecto");
             this.modelo.cuenta.saldoCuenta=0;
-            actualizarSaldoEnPantalla();
+            this.vista.actualizarSaldoEnPantalla();
         }
-        setStorage();
+        this.setStorage();
+        }
+
+        esperarEvento(){
+            document.getElementById("extraerDinero").addEventListener("click", this.extraerDinero);
+            document.getElementById("depositarDinero").addEventListener("click", this.depositarDinero);
+            document.getElementById("pagarServicio").addEventListener("click", this.pagarServicio);
+            document.getElementById("transferirDinero").addEventListener("click", this.transferirDinero);
+            document.getElementById("cambiarLimite").addEventListener("click", this.cambiarLimite);
         }
 
 }
