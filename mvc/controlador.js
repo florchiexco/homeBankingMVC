@@ -123,11 +123,11 @@ class Controlador{
         
         else {
         
-        for(i=0; i<this.modelo.amigos.length; i++){
+        for(var i=0; i<this.modelo.amigos.length; i++){
         
             if(IDamigo==this.modelo.amigos[i].ID){
-                sumarDinero(this.modelo.amigos[i], monto);
-                restarDinero(this.modelo.cuenta, monto);
+                this.sumarDinero(this.modelo.amigos[i], monto);
+                this.restarDinero(this.modelo.cuenta, monto);
                 console.log("Dinero transferido correctamente");
                 console.log("Nuevo saldo del ID amigo: " + this.modelo.amigos[i].saldoCuenta);
                 this.setStorage();
